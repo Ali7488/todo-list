@@ -19,7 +19,7 @@ export default {
 
   plugins: [
     new HtmlWebpackPlugin({
-      template: "./public/template.html",
+      template: "./src/template.html",
       filename: "index.html",
     }),
   ],

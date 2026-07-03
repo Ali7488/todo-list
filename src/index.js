@@ -1,8 +1,4 @@
 import "./styles.css";
+import DashIcons from "./UI/renderDashIcons.js";
 
-const app = document.querySelector("#app");
-
-const heading = document.createElement("h1");
-heading.textContent = "Webpack template is working";
-
-app.appendChild(heading);
+DashIcons();

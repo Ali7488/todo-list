@@ -1,0 +1,54 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Todo-List App</title>
+  </head>
+  <body>
+    <!--Side Dashboard HTML-->
+    <div id="dashboard">
+      <div class="dashboardLogo">
+        <img alt="TaskDock logo" class="logo" />
+        <h1 class="websiteHeader">TaskDock</h1>
+      </div>
+      <button type="button" id="addNewBtn">
+        <img alt="" class="btnLogo" aria-hidden="true" />
+        Add New Task
+      </button>
+      <section id="tasksManager"></section>
+      <footer>
+        <p>
+          Built by
+          <a
+            class="footerLink"
+            href="https://github.com/Ali7488"
+            target="_blank"
+            >Mohannad Ali</a
+          >
+        </p>
+      </footer>
+    </div>
+    <!--Task HTML-->
+    <main id="main-checklist">
+      <div id="noteTitle" class="hidden">
+        <h1 class="taskTitle">Title goes here</h1>
+        <p class="taskSubtitle">
+          This is where our subtitle will go when we add a task
+        </p>
+      </div>
+      <section id="task-checklist" class="hidden"></section>
+    </main>
+
+    <!--Template for when there is no tasks-->
+    <template id="noTasksSelected">
+      <p class="nothingSelected">
+        You have not selected any tasks yet <br />
+        select a task or create a new one to begin
+      </p>
+    </template>
+
+    <!--TODO Template for when there are tasks present-->
+    <template id="taskSelected"></template>
+  </body>
+</html>
