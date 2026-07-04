@@ -5,6 +5,8 @@ export default function renderDashIcons() {
   const logoImg = document.querySelector(".logo");
   logoImg.src = taskdockLogo;
 
-  const btnLogo = document.querySelector(".btnLogo");
-  btnLogo.src = plusBtnSVG;
+  const btnLogo = document.querySelectorAll(".btnLogo");
+  btnLogo.forEach((btn) => {
+    btn.src = plusBtnSVG;
+  });
 }

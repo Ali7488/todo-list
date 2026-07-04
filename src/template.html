@@ -12,11 +12,14 @@
         <img alt="TaskDock logo" class="logo" />
         <h1 class="websiteHeader">TaskDock</h1>
       </div>
-      <button type="button" id="addNewBtn">
+      <button type="button" id="addNewGroupBtn">
         <img alt="" class="btnLogo" aria-hidden="true" />
-        Add New Task
+        Add New Group
       </button>
-      <section id="tasksManager"></section>
+
+      <!--This is where the groups will be added to-->
+      <ul id="groupsManager"></ul>
+
       <footer>
         <p>
           Built by
@@ -29,26 +32,71 @@
         </p>
       </footer>
     </div>
-    <!--Task HTML-->
-    <main id="main-checklist">
-      <div id="noteTitle" class="hidden">
-        <h1 class="taskTitle">Title goes here</h1>
-        <p class="taskSubtitle">
-          This is where our subtitle will go when we add a task
-        </p>
-      </div>
-      <section id="task-checklist" class="hidden"></section>
-    </main>
 
+    <!--Task HTML-->
+    <main id="mainChecklist"></main>
+
+    <!--*TEMPLATES*-->
     <!--Template for when there is no tasks-->
-    <template id="noTasksSelected">
+    <template id="emptyStateTemplate">
       <p class="nothingSelected">
-        You have not selected any tasks yet <br />
+        You have not selected any groups yet <br />
         select a task or create a new one to begin
       </p>
     </template>
 
-    <!--TODO Template for when there are tasks present-->
-    <template id="taskSelected"></template>
+    <!-- Template for groups in the sidebar-->
+    <template id="groupItemTemplate">
+      <li class="groupItem">
+        <button type="button" class="groupCard" data-group-id="">
+          <span class="groupCardName"></span>
+          <span class="groupCardCount"></span>
+        </button>
+      </li>
+    </template>
+
+    <template id="taskRowTemplate">
+      <li class="taskRow" data-task-id="">
+        <label class="taskLeft">
+          <input
+            type="checkbox"
+            class="taskCheckbox"
+            data-action="toggle-task"
+          />
+          <span class="taskName"></span>
+        </label>
+
+        <div class="taskRight">
+          <span class="priorityBadge"></span>
+          <time class="dueDate"></time>
+
+          <button
+            type="button"
+            class="taskDeleteBtn"
+            data-action="delete-task"
+            aria-label="Delete task"
+          >
+            x
+          </button>
+        </div>
+      </li>
+    </template>
+
+    <template id="selectedGroupTemplate">
+      <div class="selectedGroupHeader">
+        <div class="textSegment">
+          <h1 class="groupTitle"></h1>
+          <p class="groupSubtitle"></p>
+        </div>
+
+        <button type="button" class="addNewTaskBtn" data-action="add-task">
+          <img alt="" class="btnLogo" aria-hidden="true" />
+          Add New Task
+        </button>
+      </div>
+
+      <!--This is where the individual classes will be added-->
+      <ul class="taskChecklist"></ul>
+    </template>
   </body>
 </html>
