@@ -1,9 +1,9 @@
 import { createGroup } from "./groupFactory";
 import { createTask } from "./taskFactory";
 
-export default function store(loadedGroupsArray = []) {
-  const groups = loadedGroupsArray;
-  let selectedGroupId = null;
+export default function store(loadedGroupsArray) {
+  const groups = loadedGroupsArray.groups;
+  let selectedGroupId = loadedGroupsArray.currentGroupId;
 
   // Navigates to teh seleceted group and returns it
   const setSelectedGroup = (groupId) => {
