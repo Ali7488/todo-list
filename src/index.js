@@ -1,4 +1,4 @@
 import "./styles.css";
-import DashIcons from "./UI/renderDashIcons.js";
+import DashIcons from "./UI /renderIcons.js";
 
 DashIcons();

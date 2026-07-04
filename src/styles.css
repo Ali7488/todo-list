@@ -448,6 +448,7 @@ body {
   flex-shrink: 0;
 }
 
+/* Footer Design */
 footer {
   text-align: center;
 }
@@ -465,29 +466,166 @@ footer {
   display: none;
 }
 
+/* Scrollbar Design */
 #groupsManager,
-.taskChecklist {
+.taskChecklist,
+.appDialog {
   scrollbar-width: thin;
   scrollbar-color: var(--color-border) transparent;
 }
 
 #groupsManager::-webkit-scrollbar,
-.taskChecklist::-webkit-scrollbar {
+.taskChecklist::-webkit-scrollbar,
+.appDialog::-webkit-scrollbar {
   width: 8px;
 }
 
 #groupsManager::-webkit-scrollbar-track,
-.taskChecklist::-webkit-scrollbar-track {
+.taskChecklist::-webkit-scrollbar-track,
+.appDialog::-webkit-scrollbar-track {
   background-color: transparent;
 }
 
 #groupsManager::-webkit-scrollbar-thumb,
-.taskChecklist::-webkit-scrollbar-thumb {
+.taskChecklist::-webkit-scrollbar-thumb,
+.appDialog::-webkit-scrollbar-thumb {
   background-color: var(--color-border);
   border-radius: 999px;
 }
 
 #groupsManager::-webkit-scrollbar-thumb:hover,
-.taskChecklist::-webkit-scrollbar-thumb:hover {
+.taskChecklist::-webkit-scrollbar-thumb:hover,
+.appDialog::-webkit-scrollbar-thumb::hover {
   background-color: var(--color-accent);
+}
+
+/* Dialogs Design */
+
+.appDialog {
+  width: min(90vw, 460px);
+  padding: 0;
+  border: none;
+  border-radius: var(--radius-lg);
+  background: transparent;
+  color: var(--color-text);
+  box-shadow: var(--shadow-md);
+
+  margin: auto;
+}
+
+.appDialog::backdrop {
+  background-color: rgb(0 0 0 / 0.65);
+  backdrop-filter: blur(3px);
+}
+
+.dialogCard {
+  padding: var(--space-xl);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-lg);
+  background-color: var(--color-surface);
+  color: var(--color-text);
+
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-lg);
+}
+
+.dialogHeader {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-xs);
+}
+
+.dialogHeader h2 {
+  font-family: var(--font-sans);
+  font-size: var(--font-xl);
+  font-weight: 800;
+}
+
+.dialogHeader p {
+  color: var(--color-text-muted);
+  font-size: var(--font-sm);
+}
+
+.formField {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-xs);
+}
+
+.formField label {
+  font-size: var(--font-sm);
+  font-weight: 700;
+  color: var(--color-text);
+}
+
+.formField input,
+.formField textarea,
+.formField select {
+  width: 100%;
+  padding: 0.75rem 0.9rem;
+
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+  background-color: var(--color-bg-darker);
+  color: var(--color-text);
+
+  outline: none;
+}
+
+.formField textarea {
+  resize: vertical;
+  min-height: 90px;
+}
+
+.formField input::placeholder,
+.formField textarea::placeholder {
+  color: var(--color-text-completed);
+}
+
+.formField input:focus,
+.formField textarea:focus,
+.formField select:focus {
+  border-color: var(--color-accent);
+  box-shadow: 0 0 0 3px rgb(125 211 252 / 0.18);
+}
+
+.dialogActions {
+  display: flex;
+  justify-content: flex-end;
+  gap: var(--space-sm);
+}
+
+.dialogBtn {
+  padding: 0.7rem 1rem;
+  border: none;
+  border-radius: var(--radius-md);
+
+  font-weight: 800;
+  color: var(--color-text);
+
+  display: inline-flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.primaryBtn {
+  background-color: var(--color-accent);
+  color: var(--color-bg);
+}
+
+.primaryBtn:hover {
+  background-color: var(--color-accent-hover);
+}
+
+.secondaryBtn {
+  background-color: var(--color-surface-raised);
+}
+
+.secondaryBtn:hover {
+  background-color: var(--color-border);
+}
+
+.dialogBtn:active {
+  transform: scale(0.98);
 }

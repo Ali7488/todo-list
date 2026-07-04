@@ -36,6 +36,100 @@
     <!--Task HTML-->
     <main id="mainChecklist"></main>
 
+    <!--*DIALOGS*-->
+    <!-- Add Group Dialog -->
+    <dialog id="addGroupDialog" class="appDialog">
+      <form id="addGroupForm" class="dialogCard">
+        <div class="dialogHeader">
+          <h2>Add New Group</h2>
+          <p>Create a task group like School, Work, or Groceries.</p>
+        </div>
+
+        <div class="formField">
+          <label for="groupTitleInput">Group title</label>
+          <input
+            type="text"
+            id="groupTitleInput"
+            name="groupTitle"
+            placeholder="School"
+            required
+          />
+        </div>
+
+        <div class="formField">
+          <label for="groupDescInput">Description</label>
+          <textarea
+            id="groupDescInput"
+            name="groupDesc"
+            rows="3"
+            placeholder="Assignments, exams, and course work"
+            required
+          ></textarea>
+        </div>
+
+        <div class="dialogActions">
+          <button
+            type="button"
+            class="dialogBtn secondaryBtn"
+            data-action="close-dialog"
+          >
+            Cancel
+          </button>
+
+          <button type="submit" class="dialogBtn primaryBtn">
+            Create Group
+          </button>
+        </div>
+      </form>
+    </dialog>
+
+    <!-- Add Task Dialog -->
+    <dialog id="addTaskDialog" class="appDialog">
+      <form id="addTaskForm" class="dialogCard">
+        <div class="dialogHeader">
+          <h2>Add New Task</h2>
+          <p>Add a task to the currently selected group.</p>
+        </div>
+
+        <div class="formField">
+          <label for="taskNameInput">Task name</label>
+          <input
+            type="text"
+            id="taskNameInput"
+            name="taskName"
+            placeholder="Finish CSS layout"
+            required
+          />
+        </div>
+
+        <div class="formField">
+          <label for="taskPriorityInput">Priority</label>
+          <select id="taskPriorityInput" name="taskPriority" required>
+            <option value="low">Low</option>
+            <option value="medium" selected>Medium</option>
+            <option value="high">High</option>
+          </select>
+        </div>
+
+        <div class="formField">
+          <label for="taskDueDateInput">Due date</label>
+          <input type="date" id="taskDueDateInput" name="taskDueDate" />
+        </div>
+
+        <div class="dialogActions">
+          <button
+            type="button"
+            class="dialogBtn secondaryBtn"
+            data-action="close-dialog"
+          >
+            Cancel
+          </button>
+
+          <button type="submit" class="dialogBtn primaryBtn">Add Task</button>
+        </div>
+      </form>
+    </dialog>
+
     <!--*TEMPLATES*-->
     <!--Template for when there is no tasks-->
     <template id="emptyStateTemplate">
