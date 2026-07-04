@@ -21,7 +21,7 @@ export const clearState = () => {
   localStorage.removeItem(STORAGE_KEY);
 };
 
-export const getDefaultState = () => {
+const getDefaultState = () => {
   return {
     groups: [],
     selectedGroupId: null,
