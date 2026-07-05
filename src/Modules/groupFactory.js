@@ -3,8 +3,8 @@ export function createGroup(title, desc) {
     throw new Error("Title must be a non-empty string");
   }
 
-  if (typeof desc !== "string" || desc.trim() === "") {
-    throw new Error("Description must be a non-empty string");
+  if (typeof desc !== "string") {
+    throw new Error("Description must be a string");
   }
 
   return {
