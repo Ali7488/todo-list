@@ -53,6 +53,27 @@ export default function initEventHandlers(loadedState) {
   });
 
   groupsManager.addEventListener("click", (event) => {
+    const deleteBtn = event.target.closest(".groupDeleteBtn");
+
+    if (deleteBtn) {
+      const groupItem = deleteBtn.closest(".groupItem");
+      const groupCard = groupItem.querySelector(".groupCard");
+      const groupId = groupCard.dataset.groupId;
+
+      store.setSelectedGroup(groupId);
+      store.deleteGroup();
+
+      const updatedGroups = store.getGroups();
+
+      saveState({
+        groups: updatedGroups,
+        selectedGroupId: null,
+      });
+
+      renderPage(updatedGroups);
+      return;
+    }
+
     const clickedBtn = event.target;
     const selectedGroup = clickedBtn.closest(".groupCard");
     if (!selectedGroup) return;
@@ -61,8 +82,10 @@ export default function initEventHandlers(loadedState) {
     store.setSelectedGroup(groupId);
     const groupToDisplay = store.getSelectedGroup();
 
-    const newState = { groups: store.getGroups(), selectedGroupId: groupId };
-    saveState(newState);
+    saveState({
+      groups: store.getGroups(),
+      selectedGroupId: groupId,
+    });
 
     renderPage(store.getGroups(), groupToDisplay);
   });

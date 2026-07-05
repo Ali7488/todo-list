@@ -16,9 +16,16 @@ function createGroupFromTemplate(group) {
   return clone;
 }
 
- function displaySelectedGroup(group) {
-  if (!group) return;
+function displaySelectedGroup(group) {
   const mainChecklist = document.getElementById("mainChecklist");
+
+  if (!group) {
+    const emptyTemplate = document.getElementById("emptyStateTemplate");
+    const clone = emptyTemplate.content.cloneNode(true);
+
+    mainChecklist.replaceChildren(clone);
+    return;
+  }
   const template = document.getElementById("selectedGroupTemplate");
   const clone = template.content.cloneNode(true);
 
@@ -62,7 +69,7 @@ function createTaskFromTemplate(task) {
   return clone;
 }
 
- function renderGroups(groups) {
+function renderGroups(groups) {
   const groupManager = document.getElementById("groupsManager");
   groupManager.replaceChildren();
   groups.forEach((group) => {

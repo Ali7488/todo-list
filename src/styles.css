@@ -279,7 +279,8 @@ body {
   color: var(--color-text-muted);
 }
 
-.taskDeleteBtn {
+.taskDeleteBtn,
+.groupDeleteBtn {
   border: none;
   background: transparent;
   color: var(--color-text-muted);
@@ -287,8 +288,18 @@ body {
   line-height: 1;
 }
 
-.taskDeleteBtn:hover {
+.taskDeleteBtn:hover,
+.groupDeleteBtn:hover {
   color: var(--priority-high);
+}
+
+.groupDeleteBtn {
+  width: 2.5rem;
+  min-height: 100%;
+  display: grid;
+  place-items: center;
+  line-height: 1;
+  font-size: var(--font-lg);
 }
 
 .taskRow.completed .taskName {
@@ -319,7 +330,10 @@ body {
 }
 
 .groupItem {
-  list-style: none;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 2.5rem;
+  align-items: center;
+  gap: var(--space-sm);
 }
 
 .groupCard {
