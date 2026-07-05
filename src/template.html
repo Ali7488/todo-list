@@ -12,14 +12,22 @@
         <img alt="TaskDock logo" class="logo" />
         <h1 class="websiteHeader">TaskDock</h1>
       </div>
-      <button type="button" id="addNewGroupBtn">
-        <img alt="" class="btnLogo" aria-hidden="true" />
-        Add New Group
-      </button>
 
-      <button type="button" id="deleteAllGroupsBtn" class="dialogBtn secondaryBtn">
-        Delete All Groups
-      </button>
+      <div class="dashboardActionsPanel">
+        <button type="button" id="addNewGroupBtn">
+          <img alt="" class="btnLogo" aria-hidden="true" />
+          Add New Group
+        </button>
+
+        <button
+          type="button"
+          id="deleteAllGroupsBtn"
+          class="dialogBtn secondaryBtn"
+          style="margin: 0 var(--space-md); width: calc(100% - 2rem)"
+        >
+          Delete All Groups
+        </button>
+      </div>
 
       <!--This is where the groups will be added to-->
       <ul id="groupsManager"></ul>
