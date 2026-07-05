@@ -16,16 +16,21 @@ function createGroupFromTemplate(group) {
   return clone;
 }
 
-function displaySelectedGroup(group) {
+function displayEmptyState() {
   const mainChecklist = document.getElementById("mainChecklist");
+  const template = document.getElementById("emptyStateTemplate");
+  const clone = template.content.cloneNode(true);
 
+  mainChecklist.replaceChildren(clone);
+}
+
+function displaySelectedGroup(group) {
   if (!group) {
-    const emptyTemplate = document.getElementById("emptyStateTemplate");
-    const clone = emptyTemplate.content.cloneNode(true);
-
-    mainChecklist.replaceChildren(clone);
+    displayEmptyState();
     return;
   }
+
+  const mainChecklist = document.getElementById("mainChecklist");
   const template = document.getElementById("selectedGroupTemplate");
   const clone = template.content.cloneNode(true);
 
@@ -50,18 +55,28 @@ function createTaskFromTemplate(task) {
   const clone = template.content.cloneNode(true);
 
   const taskRow = clone.querySelector(".taskRow");
+  const checkbox = clone.querySelector(".taskCheckbox");
   const taskName = clone.querySelector(".taskName");
   const priorityBadge = clone.querySelector(".priorityBadge");
   const dueDate = clone.querySelector(".dueDate");
 
   taskRow.dataset.taskId = task.id;
+  checkbox.checked = task.completed;
   taskName.textContent = task.name;
   priorityBadge.textContent = task.priority;
-  priorityBadge.classList.add(`${task.priority}`);
-  if (task.dueDate !== null) {
+  priorityBadge.classList.add(task.priority);
+  priorityBadge.dataset.taskId = task.id;
+  priorityBadge.title = "Click to change priority";
+
+  if (task.completed) {
+    taskRow.classList.add("completed");
+  }
+
+  if (task.dueDate !== null && task.dueDate !== "") {
     const dateObj = parseISO(task.dueDate);
     const dateToDisplay = format(dateObj, "MMM d, yyyy");
     dueDate.textContent = dateToDisplay;
+    dueDate.dateTime = task.dueDate;
   } else {
     dueDate.textContent = "No due date";
   }
