@@ -643,3 +643,7 @@ footer {
 .dialogBtn:active {
   transform: scale(0.98);
 }
+
+.dangerBtn {
+  background-color: var(--priority-high);
+}
