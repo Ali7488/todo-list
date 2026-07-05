@@ -1,0 +1,31 @@
+<svg
+  xmlns="http://www.w3.org/2000/svg"
+  viewBox="0 0 512 512"
+  role="img"
+  aria-labelledby="taskdock-title"
+>
+  <title id="taskdock-title">TaskDock logo</title>
+
+  <g fill="white">
+    <!-- T top bar -->
+    <rect x="84" y="96" width="292" height="38" rx="4" />
+
+    <!-- T vertical stem -->
+    <rect x="206" y="96" width="42" height="292" rx="4" />
+
+    <!-- Task/list bars -->
+    <rect x="126" y="190" width="82" height="30" rx="12" />
+    <rect x="126" y="252" width="82" height="30" rx="12" />
+    <rect x="126" y="314" width="82" height="30" rx="12" />
+  </g>
+
+  <!-- D shape -->
+  <path
+    d="M262 116H342C412 116 456 171 456 256C456 341 412 396 342 396H284"
+    fill="none"
+    stroke="white"
+    stroke-width="42"
+    stroke-linecap="square"
+    stroke-linejoin="round"
+  />
+</svg>
