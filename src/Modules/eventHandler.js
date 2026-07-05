@@ -12,25 +12,46 @@ export default function initEventHandlers(loadedState) {
   const groupsManager = document.getElementById("groupsManager");
   const addTaskDialog = document.getElementById("addTaskDialog");
   const addTaskForm = document.getElementById("addTaskForm");
+  const deleteAllGroupsBtn = document.getElementById("deleteAllGroupsBtn");
+  const deleteAllGroupsDialog = document.getElementById("deleteAllGroupsDialog");
+  const deleteAllGroupsForm = document.getElementById("deleteAllGroupsForm");
+  const changePriorityDialog = document.getElementById("changePriorityDialog");
+  const changePriorityForm = document.getElementById("changePriorityForm");
+  const changePriorityInput = document.getElementById("changePriorityInput");
+  const priorityTaskIdInput = document.getElementById("priorityTaskIdInput");
 
   const store = initStore(loadedState);
-  if (!loadedState.selectedGroupId) {
-    renderPage(store.getGroups());
-  } else {
+
+  const getCurrentState = () => ({
+    groups: store.getGroups(),
+    selectedGroupId: store.getSelectedGroupId(),
+  });
+
+  const saveAndRender = () => {
+    saveState(getCurrentState());
     renderPage(store.getGroups(), store.getSelectedGroup());
-  }
+  };
+
+  renderPage(store.getGroups(), store.getSelectedGroup());
 
   addGroupBtn.addEventListener("click", () => {
     addGroupDialog.showModal();
   });
 
+  deleteAllGroupsBtn.addEventListener("click", () => {
+    deleteAllGroupsDialog.showModal();
+  });
+
   dialogActions.forEach((btnGroup) => {
     btnGroup.addEventListener("click", (event) => {
-      const clickedBtn = event.target;
-      if (clickedBtn.dataset.action === "close-dialog") {
-        const dialog = clickedBtn.closest("dialog");
-        dialog.close();
-      } else return;
+      const clickedBtn = event.target.closest("[data-action='close-dialog']");
+      if (!clickedBtn) return;
+
+      const form = clickedBtn.closest("form");
+      const dialog = clickedBtn.closest("dialog");
+
+      form?.reset();
+      dialog?.close();
     });
   });
 
@@ -41,15 +62,21 @@ export default function initEventHandlers(loadedState) {
 
     const newGroup = store.addGroup(groupTitle.value, groupDesc.value);
     store.setSelectedGroup(newGroup.id);
-    const updatedGroups = store.getGroups();
 
-    const newState = { groups: updatedGroups, selectedGroupId: newGroup.id };
-    saveState(newState);
-
-    renderPage(updatedGroups, newGroup);
+    saveAndRender();
 
     addGroupDialog.close();
     addGroupForm.reset();
+  });
+
+  deleteAllGroupsForm.addEventListener("submit", (event) => {
+    event.preventDefault();
+
+    store.deleteAllGroups();
+    saveAndRender();
+
+    deleteAllGroupsDialog.close();
+    deleteAllGroupsForm.reset();
   });
 
   groupsManager.addEventListener("click", (event) => {
@@ -63,31 +90,17 @@ export default function initEventHandlers(loadedState) {
       store.setSelectedGroup(groupId);
       store.deleteGroup();
 
-      const updatedGroups = store.getGroups();
-
-      saveState({
-        groups: updatedGroups,
-        selectedGroupId: null,
-      });
-
-      renderPage(updatedGroups);
+      saveAndRender();
       return;
     }
 
-    const clickedBtn = event.target;
-    const selectedGroup = clickedBtn.closest(".groupCard");
+    const selectedGroup = event.target.closest(".groupCard");
     if (!selectedGroup) return;
 
     const groupId = selectedGroup.dataset.groupId;
     store.setSelectedGroup(groupId);
-    const groupToDisplay = store.getSelectedGroup();
 
-    saveState({
-      groups: store.getGroups(),
-      selectedGroupId: groupId,
-    });
-
-    renderPage(store.getGroups(), groupToDisplay);
+    saveAndRender();
   });
 
   mainChecklist.addEventListener("click", (event) => {
@@ -98,36 +111,46 @@ export default function initEventHandlers(loadedState) {
   });
 
   mainChecklist.addEventListener("click", (event) => {
-    const clickedBtn = event.target.closest(".taskCheckbox");
-    if (!clickedBtn) return;
+    const priorityBadge = event.target.closest(".priorityBadge");
+    if (!priorityBadge) return;
 
-    const taskRow = event.target.closest(".taskRow");
-    if (clickedBtn.checked) {
-      taskRow.classList.add("completed");
-      return;
-    }
+    const taskRow = priorityBadge.closest(".taskRow");
+    priorityTaskIdInput.value = taskRow.dataset.taskId;
+    changePriorityInput.value = priorityBadge.textContent.trim();
 
-    if (taskRow.classList.contains("completed"))
-      taskRow.classList.remove("completed");
+    changePriorityDialog.showModal();
+  });
+
+  mainChecklist.addEventListener("change", (event) => {
+    const clickedCheckbox = event.target.closest(".taskCheckbox");
+    if (!clickedCheckbox) return;
+
+    const taskRow = clickedCheckbox.closest(".taskRow");
+    const taskId = taskRow.dataset.taskId;
+
+    store.updateTaskCompletion(taskId, clickedCheckbox.checked);
+    saveAndRender();
   });
 
   mainChecklist.addEventListener("click", (event) => {
     const clickedBtn = event.target.closest(".taskDeleteBtn");
     if (!clickedBtn) return;
 
-    const taskRow = event.target.closest(".taskRow");
+    const taskRow = clickedBtn.closest(".taskRow");
     const taskId = taskRow.dataset.taskId;
 
     store.removeTaskFromGroup(taskId);
-    const updatedGroups = store.getGroups();
+    saveAndRender();
+  });
 
-    const newState = {
-      groups: updatedGroups,
-      selectedGroupId: store.getSelectedGroupId(),
-    };
+  changePriorityForm.addEventListener("submit", (event) => {
+    event.preventDefault();
 
-    saveState(newState);
-    renderPage(updatedGroups, store.getSelectedGroup());
+    store.updateTaskPriority(priorityTaskIdInput.value, changePriorityInput.value);
+    saveAndRender();
+
+    changePriorityDialog.close();
+    changePriorityForm.reset();
   });
 
   addTaskForm.addEventListener("submit", (event) => {
@@ -136,21 +159,14 @@ export default function initEventHandlers(loadedState) {
     const taskPriority = document.getElementById("taskPriorityInput");
     const dueDate = document.getElementById("taskDueDateInput");
 
-    const newTask = store.addTaskToSelectedGroup(
+    store.addTaskToSelectedGroup(
       taskName.value,
       taskPriority.value,
       dueDate.value,
     );
-    const updatedGroups = store.getGroups();
 
-    const newState = {
-      groups: updatedGroups,
-      selectedGroupId: store.getSelectedGroupId(),
-    };
+    saveAndRender();
 
-    saveState(newState);
-
-    renderPage(updatedGroups, store.getSelectedGroup());
     addTaskDialog.close();
     addTaskForm.reset();
   });

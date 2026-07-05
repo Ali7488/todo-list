@@ -1,11 +1,13 @@
 import { createGroup } from "./groupFactory.js";
 import { createTask } from "./taskFactory.js";
 
+const VALID_PRIORITIES = ["low", "medium", "high"];
+
 export default function store(loadedGroupsArray) {
   const groups = loadedGroupsArray.groups;
   let selectedGroupId = loadedGroupsArray.selectedGroupId;
 
-  // Navigates to teh seleceted group and returns it
+  // Navigates to the selected group and stores its id
   const setSelectedGroup = (groupId) => {
     const index = groups.findIndex((group) => group.id === groupId);
 
@@ -17,69 +19,83 @@ export default function store(loadedGroupsArray) {
   // Gets the currently displayed group
   const getSelectedGroup = () => {
     const index = groups.findIndex((group) => group.id === selectedGroupId);
-    if (index === -1) {
-      throw new Error("No group is currently selected");
-    }
+
+    if (index === -1) return null;
 
     return groups[index];
   };
 
-  const getSelectedGroupId = () => {
-    if (selectedGroupId === null) {
-      throw new Error("No group is currently selected");
-    }
-    return selectedGroupId;
-  };
+  const getSelectedGroupId = () => selectedGroupId;
 
-  const getGroups = () => {
-    return groups;
-  };
+  const getGroups = () => groups;
 
-  //creates a new group and pushes it to the groups array
+  // Creates a new group and pushes it to the groups array
   const addGroup = (title, desc) => {
     const newGroup = createGroup(title, desc);
     groups.push(newGroup);
     return newGroup;
   };
 
-  //finds the group that matches the groupId and removes it from the array
+  // Finds the selected group and removes it from the array
   const deleteGroup = () => {
     const index = groups.findIndex((group) => group.id === selectedGroupId);
-    if (index === -1) {
-      return;
-    }
+    if (index === -1) return;
+
     groups.splice(index, 1);
     selectedGroupId = null;
   };
 
-  //finds the correct group, then creates a task and pushes it to the tasks array within that group
-  const addTaskToSelectedGroup = (name, priority, dueDate) => {
-    const neededGroupIndex = groups.findIndex(
-      (group) => group.id === selectedGroupId,
-    );
+  // Clears every group and deselects the current group
+  const deleteAllGroups = () => {
+    groups.splice(0, groups.length);
+    selectedGroupId = null;
+  };
 
-    if (neededGroupIndex === -1) return;
+  // Finds the correct group, then creates a task and pushes it to the tasks array within that group
+  const addTaskToSelectedGroup = (name, priority, dueDate) => {
+    const selectedGroup = getSelectedGroup();
+    if (!selectedGroup) return;
 
     const newTask = createTask(name, priority, dueDate);
-    groups[neededGroupIndex].tasks.push(newTask);
+    selectedGroup.tasks.push(newTask);
     return newTask;
   };
 
-  //finds the group that has the task to be deleted then removes it
+  // Finds the selected group, then removes the matching task
   const removeTaskFromGroup = (taskId) => {
-    const neededGroupIndex = groups.findIndex(
-      (group) => group.id === selectedGroupId,
-    );
+    const selectedGroup = getSelectedGroup();
+    if (!selectedGroup) return;
 
-    if (neededGroupIndex === -1) return;
-
-    const taskToDeleteIndex = groups[neededGroupIndex].tasks.findIndex(
+    const taskToDeleteIndex = selectedGroup.tasks.findIndex(
       (task) => task.id === taskId,
     );
 
     if (taskToDeleteIndex === -1) return;
 
-    groups[neededGroupIndex].tasks.splice(taskToDeleteIndex, 1);
+    selectedGroup.tasks.splice(taskToDeleteIndex, 1);
+  };
+
+  const updateTaskPriority = (taskId, priority) => {
+    const selectedGroup = getSelectedGroup();
+    if (!selectedGroup) return;
+
+    const normalizedPriority = priority.trim();
+    if (!VALID_PRIORITIES.includes(normalizedPriority)) return;
+
+    const taskToUpdate = selectedGroup.tasks.find((task) => task.id === taskId);
+    if (!taskToUpdate) return;
+
+    taskToUpdate.priority = normalizedPriority;
+  };
+
+  const updateTaskCompletion = (taskId, isCompleted) => {
+    const selectedGroup = getSelectedGroup();
+    if (!selectedGroup) return;
+
+    const taskToUpdate = selectedGroup.tasks.find((task) => task.id === taskId);
+    if (!taskToUpdate) return;
+
+    taskToUpdate.completed = isCompleted;
   };
 
   return {
@@ -88,8 +104,11 @@ export default function store(loadedGroupsArray) {
     getSelectedGroupId,
     removeTaskFromGroup,
     addTaskToSelectedGroup,
+    updateTaskPriority,
+    updateTaskCompletion,
     addGroup,
     deleteGroup,
+    deleteAllGroups,
     getGroups,
   };
 }
