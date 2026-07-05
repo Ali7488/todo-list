@@ -17,6 +17,10 @@
         Add New Group
       </button>
 
+      <button type="button" id="deleteAllGroupsBtn" class="dialogBtn secondaryBtn">
+        Delete All Groups
+      </button>
+
       <!--This is where the groups will be added to-->
       <ul id="groupsManager"></ul>
 
@@ -127,6 +131,72 @@
           </button>
 
           <button type="submit" class="dialogBtn primaryBtn">Add Task</button>
+        </div>
+      </form>
+    </dialog>
+
+    <!-- Change Priority Dialog -->
+    <dialog id="changePriorityDialog" class="appDialog">
+      <form id="changePriorityForm" class="dialogCard">
+        <div class="dialogHeader">
+          <h2>Change Priority</h2>
+          <p>Choose the new priority for this task.</p>
+        </div>
+
+        <input type="hidden" id="priorityTaskIdInput" name="taskId" />
+
+        <div class="formField">
+          <label for="changePriorityInput">Priority</label>
+          <select id="changePriorityInput" name="taskPriority" required>
+            <option value="low">Low</option>
+            <option value="medium">Medium</option>
+            <option value="high">High</option>
+          </select>
+        </div>
+
+        <div class="dialogActions">
+          <button
+            type="button"
+            class="dialogBtn secondaryBtn"
+            data-action="close-dialog"
+          >
+            Cancel
+          </button>
+
+          <button type="submit" class="dialogBtn primaryBtn">
+            Update Priority
+          </button>
+        </div>
+      </form>
+    </dialog>
+
+    <!-- Delete All Groups Dialog -->
+    <dialog id="deleteAllGroupsDialog" class="appDialog">
+      <form id="deleteAllGroupsForm" class="dialogCard">
+        <div class="dialogHeader">
+          <h2>Delete All Groups?</h2>
+          <p>
+            This permanently removes every group and task from this browser's
+            saved app state.
+          </p>
+        </div>
+
+        <p class="dangerText">
+          This cannot be undone. Yes, computers remember your bad decisions too.
+        </p>
+
+        <div class="dialogActions">
+          <button
+            type="button"
+            class="dialogBtn secondaryBtn"
+            data-action="close-dialog"
+          >
+            Cancel
+          </button>
+
+          <button type="submit" class="dialogBtn dangerBtn">
+            Delete Everything
+          </button>
         </div>
       </form>
     </dialog>
