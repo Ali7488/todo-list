@@ -13,7 +13,9 @@ export default function initEventHandlers(loadedState) {
   const addTaskDialog = document.getElementById("addTaskDialog");
   const addTaskForm = document.getElementById("addTaskForm");
   const deleteAllGroupsBtn = document.getElementById("deleteAllGroupsBtn");
-  const deleteAllGroupsDialog = document.getElementById("deleteAllGroupsDialog");
+  const deleteAllGroupsDialog = document.getElementById(
+    "deleteAllGroupsDialog",
+  );
   const deleteAllGroupsForm = document.getElementById("deleteAllGroupsForm");
   const changePriorityDialog = document.getElementById("changePriorityDialog");
   const changePriorityForm = document.getElementById("changePriorityForm");
@@ -146,7 +148,10 @@ export default function initEventHandlers(loadedState) {
   changePriorityForm.addEventListener("submit", (event) => {
     event.preventDefault();
 
-    store.updateTaskPriority(priorityTaskIdInput.value, changePriorityInput.value);
+    store.updateTaskPriority(
+      priorityTaskIdInput.value,
+      changePriorityInput.value,
+    );
     saveAndRender();
 
     changePriorityDialog.close();
